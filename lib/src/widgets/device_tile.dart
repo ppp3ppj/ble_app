@@ -94,11 +94,11 @@ class DeviceTile extends StatelessWidget {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                       GlobalText(text: solenoidDevice.title, fontSize: 22, fontHeightSpace: 0, fontWeight: FontWeight.bold,),
-                                      // GlobalText(text: 'Status : ' , fontSize: 18),
+                                      //TODO: Do it later it's wait TODO Done
+                                      GlobalText(text: 'เเก้ไขล่าสุด :  an hour ago' , fontSize: 16, color: Colors.grey,),
                                       // GlobalText(text: 'Status : เปิด', fontSize: 18),
                                       // GlobalText(text: solenoidDevice.title, fontSize: 25,),
                                       // Text('เปิดการทำงานของอุปกรณ์'),
-                                      // Text('data'),
                                           ],
                                         )
                                       ),

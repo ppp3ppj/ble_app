@@ -56,13 +56,14 @@ class DeviceTaskTile extends StatelessWidget {
                     // text: '00:00 - 00: 00',
                     text: '${task.title}',
                     // text: widget.task.ti,
-                    fontSize: 24,
+                    fontSize: 18,
                   ),
                 // ],
               // ),
               GlobalText(
-                text: 'การตั้งค่าการทำงาน',
-                fontSize: 18,
+                // text: 'การตั้งค่าการทำงาน',
+                text: '${task.startDate} - ${task.endDate}',
+                fontSize: 20,
               ),
               SizedBox.fromSize(
                size: Size(190, 25), 
@@ -76,9 +77,13 @@ class DeviceTaskTile extends StatelessWidget {
                       dayString,
                       style: TextStyle(
                         fontFamily: 'Kanit',
-                        fontSize: 18,
-                        color: context.watch<InterfaceProvider>().days[index] ? Colors.green : Colors.grey,
-                        fontWeight: context.watch<InterfaceProvider>().days[index] ? FontWeight.bold : FontWeight.normal,
+                        fontSize: 17,
+                        // color: context.watch<InterfaceProvider>().days[index] ? Colors.green : Colors.grey,
+                        // fontWeight: context.watch<InterfaceProvider>().days[index] ? FontWeight.bold : FontWeight.normal,
+                        //! check day in local Storage
+                        //TODO: use storage to collect data and show - day  
+                        color: task.days[index] ? Colors.green : Colors.grey,
+                        fontWeight: task.days[index] ? FontWeight.bold : FontWeight.normal,
                       ),
                     );
                 } ).toList(), 

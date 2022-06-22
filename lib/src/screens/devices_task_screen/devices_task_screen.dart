@@ -1,5 +1,6 @@
 // import 'dart:html';
 import 'package:ble_app/src/models/db/device_task_model.dart';
+import 'package:ble_app/src/routes/router.gr.dart';
 import 'package:ble_app/src/widgets/bottomsheet_widget.dart'; //! widget add/update
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +14,7 @@ import 'package:ble_app/src/widgets/device_task_tile.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_switch/flutter_switch.dart'; //* flutter toggle switch 
-
+import 'package:auto_route/auto_route.dart'; //!auto route
 class DevicesTaskScreen extends StatelessWidget {
   DevicesTaskScreen({Key? key, required this.solenoidDevice}) : super(key: key);
   // const SolenoidTaskScreen({required this.solenoid_task});
@@ -337,6 +338,8 @@ class DevicesTaskScreen extends StatelessWidget {
           log('add');
           // inputItemDialog(context, 'add', solenoidtask);
           bottomSheetWidget(context, 'add', solenoidDevice, null);
+
+          // context.router.push(AddUpdateTaskScreen(action: 'add', solenoidDevice: solenoidDevice, solenoidTaskDevice: null));
         },
         child: const Icon(Icons.add),
         backgroundColor: Colors.lightBlue.shade300,

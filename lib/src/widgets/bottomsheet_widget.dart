@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:ble_app/src/models/db/device_model.dart';
 import 'package:ble_app/src/provider/interface_provider.dart';
+import 'package:ble_app/src/widgets/input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,14 +22,46 @@ void bottomSheetWidget(
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   // GlobalKey<FormState> _timekey = GlobalKey<FormState>();
 
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _timeController = TextEditingController();
-  // List<bool> daySelect = [];
+  final TextEditingController _titleController = TextEditingController();
+  // final TextEditingController _timeController = TextEditingController();
+  final TextEditingController _startTimeController = TextEditingController();
+  final TextEditingController _endTimeController = TextEditingController();
 
+   TimeOfDay? _startDate; 
+   TimeOfDay? _endDate; 
+  //! check user error
+  int durationStartDate = 0;
+  int durationEndDate = 0;
+  int durationResultError = 0;
+
+  // List<bool> _daysDate = [];
+  // List<bool> daySelect = [];
   //! set for update set field text data for update
   if (action == 'update') {
     _titleController.text = solenoidTaskCheck!.title;
+    _startTimeController.text = solenoidTaskCheck.startDate;
+    _endTimeController.text = solenoidTaskCheck.endDate;
+
+    _startDate =  TimeOfDay(hour:int.parse(solenoidTaskCheck.startDate.split(":")[0]),minute: int.parse(solenoidTaskCheck.startDate.split(":")[1].split(" ")[0]));
+    _endDate =  TimeOfDay(hour:int.parse(solenoidTaskCheck.endDate.split(":")[0]),minute: int.parse(solenoidTaskCheck.endDate.split(":")[1].split(" ")[0]));
   }
+
+  //!time diff check user error
+  getTime(startTime, endTime) {
+    bool result = false;
+    int startTimeInt = (startTime.hour * 60 + startTime.minute) * 60;
+    int EndTimeInt = (endTime.hour * 60 + endTime.minute) * 60;
+    int dif = EndTimeInt - startTimeInt;
+    log('Duration in sec is ${dif} sec, in minute is ${dif/60} min.');
+
+    if (EndTimeInt > startTimeInt) {
+      result = true;
+    } else {
+      result = false;
+    }
+    return result;
+  }
+
   final taskDB = Provider.of<TaskAllModelProvider>(context, listen: false);
   showModalBottomSheet(
     context: context,
@@ -39,178 +72,356 @@ void bottomSheetWidget(
       ),
     ),
     builder: (context) {
-      return Padding(
-        padding: EdgeInsets.fromLTRB(
-            10, 10, 10, MediaQuery.of(context).viewInsets.bottom),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-                height: 30,
-                child: GlobalText(
-                  text: action == 'add' ? 'Add Task' : 'Update Task',
-                  fontSize: 25,
-                )),
-            const SizedBox(
-              height: 16.0,
-            ),
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: _titleController,
-                    validator: (value) {
-                      return value!.trim().isNotEmpty ? null : 'Enter a task title';
-                    },
-                    onFieldSubmitted: (_) {
-                      _formKey.currentState!.validate();
-                    },
-                    decoration: InputDecoration(
-                        hintText: 'Title',
-                        enabledBorder: customBorder(Colors.white),
-                        focusedBorder: customBorder(Colors.black),
-                        errorBorder: customBorder(Colors.red),
-                        focusedErrorBorder: customBorder(Colors.red)),
-                  ),
-                  const SizedBox(height: 12,),
-                  Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+      return GestureDetector(
+        onTap: (){
+          //! add widget GestureDetector for dismiss keyboard 
+          FocusScopeNode currentFocus = FocusScope.of(context);
+           if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+        },
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(
+              // 10, 10, 10, MediaQuery.of(context).viewInsets.bottom),
+              10, 10, 10, MediaQuery.of(context).viewInsets.bottom),
+          child: SingleChildScrollView(
+            // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                WeekDayToggle(
-                    text: 'Su',
-                    current:
-                    context.watch<InterfaceProvider>().days[0],
-                    onToggle: (sunday) {
-                      log('sunday is $sunday');
-                      Provider.of<InterfaceProvider>(context, listen: false).setSunday(sunday);
-                      log('${solenoidTaskCheck?.toJson()}');
-                    }),
-                WeekDayToggle(
-                    text: 'Mo',
-                    // current: true,
-                    current: context.watch<InterfaceProvider>().days[1],
-                    onToggle: (monday) {
-                      Provider.of<InterfaceProvider>(context, listen: false).setMonday(monday);
-                    }),
-                WeekDayToggle(
-                    text: 'Tu',
-                    // current: false,
-                    current: context.watch<InterfaceProvider>().days[2],
-                    onToggle: (tuesday) {
-                      Provider.of<InterfaceProvider>(context, listen: false).setTuesday(tuesday);
-                    }),
-                WeekDayToggle(
-                    text: 'We',
-                    current: context.watch<InterfaceProvider>().days[3],
-                    onToggle: (wednesday) {
-                      Provider.of<InterfaceProvider>(context, listen: false).setWednesday(wednesday);
-                    }),
-                WeekDayToggle(
-                    text: 'Th',
-                    // current: false,
-                    current: context.watch<InterfaceProvider>().days[4],
-                    onToggle: (thursday) {
-                      Provider.of<InterfaceProvider>(context, listen: false).setThursday(thursday);
-                    }),
-                WeekDayToggle(
-                    text: 'Fr',
-                    current: context.watch<InterfaceProvider>().days[5],
-                    onToggle: (friday) {
-                      Provider.of<InterfaceProvider>(context, listen: false).setFriday(friday);
-                    }),
-                WeekDayToggle(
-                    text: 'Sa',
-                    current: context.watch<InterfaceProvider>().days[6],
-                    onToggle: (saturday) {
-                      Provider.of<InterfaceProvider>(context, listen: false).setSaturday(saturday);
-                    }),
+                SizedBox(
+                    height: 30,
+                    child: GlobalText(
+                      text: action == 'add' ? 'Add Task' : 'Update Task',
+                      fontSize: 25,
+                    )),
+                const SizedBox(
+                  height: 16.0,
+                ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InputField(
+                        isEnabled: true, 
+                        controller: _titleController,
+                        hint: 'Enter Title', 
+                        label: 'Title', 
+                        iconOrdrop: 'icon',
+                      ),
+                      // GlobalText(text: 'Title',fontSize: 17,), 
+                      // const SizedBox(height: 5,),
+                      // TextFormField(
+                      //   controller: _titleController,
+                      //   validator: (value) {
+                      //     return value!.trim().isNotEmpty ? null : 'Enter a task title';
+                      //   },
+                      //   onFieldSubmitted: (_) {
+                      //     _formKey.currentState!.validate();
+                      //   },
+                      //   decoration: InputDecoration(
+                      //       // isCollapsed: true,
+                      //       // label: GlobalText(text: 'Title',),
+                      //       hintText: 'Enter Title',
+                      //       enabledBorder: customBorder(Colors.white),
+                      //       focusedBorder: customBorder(Colors.black),
+                      //       errorBorder: customBorder(Colors.red),
+                      //       focusedErrorBorder: customBorder(Colors.red)),
+                      // ),
+                      
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: 165,
+                            child: InputField(
+                              isEnabled: false,
+                              controller: _startTimeController,
+                              label: 'Start Time',
+                              iconOrdrop: 'button',
+                              hint: '',
+                              widget: IconButton(
+                                icon: Icon(
+                                  Icons.access_time,
+                                ),
+                                onPressed: () async {
+                                if(action == 'add') {
+                                  final time = await showTimePicker(context: context, initialTime: TimeOfDay.now());
+                                    if(time != null) {
+                                      log('${time.format(context)}'); 
+                                      log('${time.toString()}');
+      
+                                      //!24 hr no zero
+                                      // _startTimeController.text = '${time.hour}:${time.minute}'; 
+                                      //! 12 hr am/pm
+                                      _startTimeController.text = '${time.format(context)}'; 
+                                      _startDate = time;
+      
+                                    } 
+                                  }
+                                if(action == 'update') { 
+                                  TimeOfDay _startTimeUpdate = TimeOfDay(hour:int.parse(solenoidTaskCheck!.startDate.split(":")[0]),minute: int.parse(solenoidTaskCheck.startDate.split(":")[1].split(" ")[0]));
+                                  final time = await showTimePicker(context: context, initialTime: _startTimeUpdate);
+                                  log('update : $time');
+                                  if(time != null) {
+                                    //! 12 hr am/pm
+                                    _startTimeController.text = '${time.format(context)}'; 
+                                    _startDate = time;
+                                  } 
+                                    
+                                  
+                                  
+                                }
+                                },
+                              ),
+                            ),
+                          ),
+                           SizedBox(
+                            width: 165,
+                            child: InputField(
+                              isEnabled: false,
+                              controller: _endTimeController,
+                              label: 'End Time',
+                              iconOrdrop: 'button',
+                              hint: '',
+                              widget: IconButton(
+                                icon: Icon(
+                                  Icons.access_time,
+                                ),
+                                onPressed: () async {
+                                  if(action == 'add') {
+                                    final time = await showTimePicker(context: context, initialTime: TimeOfDay.now());
+                                      if(time != null) {
+                                      log('${time.format(context)}'); 
+                                      log('${time.toString()}');
+                                      //!24 hr no zero
+                                      // _endTimeController.text = '${time.hour}:${time.minute}'; 
+                                      //! 12 hr am/pm
+                                      _endTimeController.text = '${time.format(context)}'; 
+                                      _endDate = time;
+      
+                                      }
+                                    } 
+                                  if(action == 'update') {
+                                    //? convert string "12:22 AM" --> TimeOfDay 12 22 
+                                    TimeOfDay _endTimeUpdate = TimeOfDay(hour:int.parse(solenoidTaskCheck!.endDate.split(":")[0]),minute: int.parse(solenoidTaskCheck.endDate.split(":")[1].split(" ")[0]));
+                                    // log('time TimeOfDay is ${time}');
+                                    final time = await showTimePicker(context: context, initialTime: _endTimeUpdate);
+                                    if(time != null) {
+                                      _endTimeController.text = '${time.format(context)}';  //? 12hr
+                                      _endDate = time;
+                                    } 
+                                    // if(time == null) {
+                                    //   _endTimeController.text = solenoidTaskCheck.endDate;
+                                    //   _endDate = _endTimeUpdate;
+                                    //   log('Now endtime is null');
+                                    // }
+
+                                  }
+                                  },
+                              ),
+      
+                            ),
+                          )
+                        ],
+                      ),
+      
+                      const SizedBox(height: 12,),
+                      GlobalText(text: 'Duration : ', fontSize: 17, fontWeight: FontWeight.bold,),
+                      const SizedBox(height: 12,),
+                      GlobalText(text: 'Repeat Day', fontSize: 17,),
+                      const SizedBox(height: 5,),
+                      Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    WeekDayToggle(
+                        text: 'Su',
+                        current:
+                        context.watch<InterfaceProvider>().days[0],
+                        onToggle: (sunday) {
+                          log('sunday is $sunday');
+                          Provider.of<InterfaceProvider>(context, listen: false).setSunday(sunday);
+                          log('${solenoidTaskCheck?.toJson()}');
+                        }),
+                    WeekDayToggle(
+                        text: 'Mo',
+                        // current: true,
+                        current: context.watch<InterfaceProvider>().days[1],
+                        onToggle: (monday) {
+                          Provider.of<InterfaceProvider>(context, listen: false).setMonday(monday);
+                        }),
+                    WeekDayToggle(
+                        text: 'Tu',
+                        // current: false,
+                        current: context.watch<InterfaceProvider>().days[2],
+                        onToggle: (tuesday) {
+                          Provider.of<InterfaceProvider>(context, listen: false).setTuesday(tuesday);
+                        }),
+                    WeekDayToggle(
+                        text: 'We',
+                        current: context.watch<InterfaceProvider>().days[3],
+                        onToggle: (wednesday) {
+                          Provider.of<InterfaceProvider>(context, listen: false).setWednesday(wednesday);
+                        }),
+                    WeekDayToggle(
+                        text: 'Th',
+                        // current: false,
+                        current: context.watch<InterfaceProvider>().days[4],
+                        onToggle: (thursday) {
+                          Provider.of<InterfaceProvider>(context, listen: false).setThursday(thursday);
+                        }),
+                    WeekDayToggle(
+                        text: 'Fr',
+                        current: context.watch<InterfaceProvider>().days[5],
+                        onToggle: (friday) {
+                          Provider.of<InterfaceProvider>(context, listen: false).setFriday(friday);
+                        }),
+                    WeekDayToggle(
+                        text: 'Sa',
+                        current: context.watch<InterfaceProvider>().days[6],
+                        onToggle: (saturday) {
+                          Provider.of<InterfaceProvider>(context, listen: false).setSaturday(saturday);
+                        }),
+                  ],
+                ),
+          
+                // const SizedBox(height: 12,),
+                //       TextFormField(
+                //         // enabled: false,
+                        
+                //         controller: _timeController,
+                //         validator: (value) {
+                //           return value!.trim().isNotEmpty ? null : 'Enter a task title';
+                //         },
+                //         onFieldSubmitted: (_) {
+                //           _formKey.currentState!.validate();
+                //         },
+                //         decoration: InputDecoration(
+                //             hintText: 'Time',
+                //             enabledBorder: customBorder(Colors.white),
+                //             focusedBorder: customBorder(Colors.black),
+                //             errorBorder: customBorder(Colors.red),
+                //             focusedErrorBorder: customBorder(Colors.red),
+                //         ),
+                //         // onTap: () async {
+                //         //   final time = await showTimePicker(context: context, initialTime: TimeOfDay(
+                //         //     hour: TimeOfDay.now().hour, minute: TimeOfDay.now().minute,));
+                //         //     if(time != null) {
+                //         //       _timeController.text = '${time.hour}:${time.minute}';
+                //         //     }
+                //         // },
+                //       ),
+                      // InputField(label: 'ppp', hint: 'Enter if', iconOrdrop: 'icon', isEnabled: true),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //   InputField(
+                      //   label: 'Start Time', 
+                      //   hint: 'Enter if', 
+                      //   iconOrdrop: 'button', 
+                      //   isEnabled: false,
+                      //   widget: IconButton(onPressed: (){}, icon: Icon(Icons.access_time)),
+                      //   ), 
+                      //    InputField(
+                      //   label: 'End Time', 
+                      //   hint: 'Enter if', 
+                      //   iconOrdrop: 'button', 
+                      //   isEnabled: false,
+                      //   widget: IconButton(onPressed: (){}, icon: Icon(Icons.access_time)),
+                      //   ), 
+                      //   ], 
+                        
+                      // ),
+                      
+                      
+          
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                // Form(
+                //   key: _timekey,
+                //   child: TextFormField(
+                //     controller: _timeController,
+                //     validator: (value){
+                //       return value!.trim().isNotEmpty ? null : 'Enter a time';
+                //     }, 
+                //     onFieldSubmitted: (_){
+                //       _timekey.currentState!.validate();
+                //     },
+                //     decoration: InputDecoration(
+                //       hintText: 'Time',
+                //       enabledBorder: customBorder(Colors.white),
+                //         focusedBorder: customBorder(Colors.black),
+                //         errorBorder: customBorder(Colors.red),
+                //         focusedErrorBorder: customBorder(Colors.red)
+                //     ),
+                //   )
+                // ),
+                // const SizedBox(
+                //   height: 15.0,
+                // ),
+          
+                
+                const SizedBox(height: 30),
+                ElevatedButton(
+                    onPressed: () {
+                      
+                      if (_formKey.currentState!.validate()) {
+                        if (action == 'add' && getTime(_startDate, _endDate)) {
+                          // get
+                          log('State time is ${getTime(_startDate, _endDate)}');
+                          DeviceTaskModel solenoidTask = DeviceTaskModel(
+                            id: solenoidDevice.id,
+                            title: _titleController.text,
+                            date: DateTime.now(),
+                            startDate: _startTimeController.text,
+                            endDate:  _endTimeController.text,
+                            //! day select
+                            // sunday: ,
+                          );
+                          log('${solenoidTask.toJson()}');
+                          taskDB.addTask(solenoidDevice, solenoidTask);
+                          log('value is = ${Provider.of<InterfaceProvider>(context, listen: false).days.contains(true)}');
+                          log('Saved');
+                          _titleController.clear();
+                          _startTimeController.clear();
+                          _endTimeController.clear();
+                          Navigator.pop(context);
+                        }
+                        if (action == 'update' && getTime(_startDate, _endDate)) {
+                          log('State time is ${getTime(_startDate, _endDate)}');
+                          //? action == update
+                          DeviceTaskModel solenoidTask = DeviceTaskModel(
+                              id: solenoidTaskCheck!.id,
+                              title: _titleController.text,
+                              date: DateTime.now(),
+                              startDate: _startTimeController.text,
+                              endDate:  _endTimeController.text,
+                              );
+                          taskDB.updateTask(solenoidDevice, solenoidTask);
+                          log('updated');
+                            _titleController.clear();
+                        Navigator.pop(context);
+                        }
+                        // _titleController.clear();
+                        // Navigator.pop(context);
+                      }
+                      // taskDB.getAllSolenoidTask(solenoidTask);
+                      // taskDB.getAllSolenoidTask(solenoidDevice);
+                      // Navigator.pop(context);
+                    },
+                    child: GlobalText(
+                      text: action == 'add' ? 'Save' : 'Update',
+                      color: Colors.white,
+                    ))
               ],
             ),
-            const SizedBox(height: 12,),
-                  TextFormField(
-                    controller: _timeController,
-                    validator: (value) {
-                      return value!.trim().isNotEmpty ? null : 'Enter a task title';
-                    },
-                    onFieldSubmitted: (_) {
-                      _formKey.currentState!.validate();
-                    },
-                    decoration: InputDecoration(
-                        hintText: 'Time',
-                        enabledBorder: customBorder(Colors.white),
-                        focusedBorder: customBorder(Colors.black),
-                        errorBorder: customBorder(Colors.red),
-                        focusedErrorBorder: customBorder(Colors.red)),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-            // Form(
-            //   key: _timekey,
-            //   child: TextFormField(
-            //     controller: _timeController,
-            //     validator: (value){
-            //       return value!.trim().isNotEmpty ? null : 'Enter a time';
-            //     }, 
-            //     onFieldSubmitted: (_){
-            //       _timekey.currentState!.validate();
-            //     },
-            //     decoration: InputDecoration(
-            //       hintText: 'Time',
-            //       enabledBorder: customBorder(Colors.white),
-            //         focusedBorder: customBorder(Colors.black),
-            //         errorBorder: customBorder(Colors.red),
-            //         focusedErrorBorder: customBorder(Colors.red)
-            //     ),
-            //   )
-            // ),
-            // const SizedBox(
-            //   height: 15.0,
-            // ),
-
-            
-            const SizedBox(height: 30),
-            ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    if (action == 'add') {
-                      DeviceTaskModel solenoidTask = DeviceTaskModel(
-                        id: solenoidDevice.id,
-                        title: _titleController.text,
-                        date: DateTime.now(),
-                        //! day select
-                        // sunday: ,
-                      );
-                      log('${solenoidTask.toJson()}');
-                      taskDB.addTask(solenoidDevice, solenoidTask);
-                      log('Saved');
-                    }
-                    if (action == 'update') {
-                      //? action == update
-                      DeviceTaskModel solenoidTask = DeviceTaskModel(
-                          id: solenoidTaskCheck!.id,
-                          title: _titleController.text,
-                          date: DateTime.now());
-                      taskDB.updateTask(solenoidDevice, solenoidTask);
-                      log('updated');
-                    }
-                    _titleController.clear();
-                    Navigator.pop(context);
-                  }
-                  // taskDB.getAllSolenoidTask(solenoidTask);
-                  // taskDB.getAllSolenoidTask(solenoidDevice);
-                  // Navigator.pop(context);
-                },
-                child: GlobalText(
-                  text: action == 'add' ? 'Save' : 'Update',
-                  color: Colors.white,
-                ))
-          ],
+          ),
         ),
       );
     },

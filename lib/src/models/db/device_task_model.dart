@@ -18,8 +18,16 @@ class DeviceTaskModel {
   @HiveField(3)
   bool status;
 
+  //! time start end
+  @HiveField(4)
+  String startDate;
+  @HiveField(5)
+  String endDate;
     //! Day of week V1 test
   // @HiveField(4)
+  int? hour;
+  int? minute;
+
   bool? monday;
   // @HiveField(5)
   bool? tuesday;
@@ -39,6 +47,10 @@ class DeviceTaskModel {
     required this.title,
     required this.date,
     this.status = false,
+    this.hour = 0,
+    this.minute = 0,
+    this.startDate = '00:00',
+    this.endDate =  '00:00',
         this.sunday = false, this.monday = false, this.tuesday = false, this.wednesday = false, this.thursday = false, this.friday = false, this.saturday = false, 
   });
 
@@ -46,11 +58,22 @@ class DeviceTaskModel {
     'id': id,
     'date': date,
     'title': title,
-    'dayofweek' : days
+    'dayofweek' : days,
+    'time' : times,
+    'durationdate' : durationdate,
   };
 
   List<bool> get days {
     return [sunday!, monday!, thursday!, wednesday!, thursday!, friday!, saturday!];
+  }
+
+  List<int?> get times {
+    return [hour, minute];
+  }
+  
+  // String get time
+  List<String> get durationdate {
+    return ['Start time is ${startDate}', 'End time is $endDate'];
   }
 
 }

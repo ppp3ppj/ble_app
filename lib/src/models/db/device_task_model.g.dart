@@ -21,13 +21,15 @@ class DeviceTaskModelAdapter extends TypeAdapter<DeviceTaskModel> {
       title: fields[2] as String,
       date: fields[1] as DateTime,
       status: fields[3] as bool,
+      startDate: fields[4] as String,
+      endDate: fields[5] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, DeviceTaskModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -35,7 +37,11 @@ class DeviceTaskModelAdapter extends TypeAdapter<DeviceTaskModel> {
       ..writeByte(2)
       ..write(obj.title)
       ..writeByte(3)
-      ..write(obj.status);
+      ..write(obj.status)
+      ..writeByte(4)
+      ..write(obj.startDate)
+      ..writeByte(5)
+      ..write(obj.endDate);
   }
 
   @override

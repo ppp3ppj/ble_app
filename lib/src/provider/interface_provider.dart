@@ -9,7 +9,50 @@ class InterfaceProvider extends ChangeNotifier {
   bool _friday = false;
   bool _saturday = false;
   bool _sunday = false;
+  bool _canConfirm = false;
 
+  int? _startHour = 0;
+  int? _startMinute = 0;
+
+  int? _endHour = 0;
+  int? _endMinute= 0;
+
+  int? durationCheck; //for check duration if - = error reset start stop
+
+  String get startTime => '$_startHour:$_startMinute';
+
+  int _hour = 0;
+  int _minute = 0;
+
+  String startDate ='00:00';
+  String endDate ='00:00';
+
+  Future<void> setStartDate(String text) async {
+    startDate = text;
+    notifyListeners();
+  }
+
+  Future<void> setEndDate(String text) async {
+    endDate = text;
+    notifyListeners();
+  }
+  
+
+  List<int> get times => [_hour, _minute];
+  // List<String> get timesString => [_hour.toString().padLeft(2, '0'), _minute.toString().padLeft(2, '0')];
+  String get timesString => _hour.toString().padLeft(2, '0') + ':' + _minute.toString().padLeft(2, '0');
+
+  int get hour => _hour;
+  int get minute => _minute;
+
+  Future<void> setHour(int hour) async {
+    _hour = hour;
+    notifyListeners();
+  }
+  Future<void> setMinute(int minute) async {
+    _minute = minute;
+    notifyListeners();
+  }
 
   List<bool> get days =>
       [_sunday, _monday, _tuesday, _wednesday, _thursday, _friday, _saturday];
