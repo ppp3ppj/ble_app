@@ -13,7 +13,6 @@ import 'dart:convert'; //? use for JsonEncode
 class TaskAllModelProvider extends ChangeNotifier {
   bool active = false;
   bool activeTask = false;
-  
 
   Future<void> setActive(bool value) async {
     // Mock slow database call ↓

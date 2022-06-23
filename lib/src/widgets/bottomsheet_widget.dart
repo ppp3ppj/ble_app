@@ -34,7 +34,7 @@ void bottomSheetWidget(
   int durationEndDate = 0;
   int durationResultError = 0;
 
-  // List<bool> _daysDate = [];
+  List<bool?> _daysDate = [false, false, false, false, false, false, false];
   // List<bool> daySelect = [];
   //! set for update set field text data for update
   if (action == 'update') {
@@ -44,6 +44,24 @@ void bottomSheetWidget(
 
     _startDate =  TimeOfDay(hour:int.parse(solenoidTaskCheck.startDate.split(":")[0]),minute: int.parse(solenoidTaskCheck.startDate.split(":")[1].split(" ")[0]));
     _endDate =  TimeOfDay(hour:int.parse(solenoidTaskCheck.endDate.split(":")[0]),minute: int.parse(solenoidTaskCheck.endDate.split(":")[1].split(" ")[0]));
+
+    //? Provider for update
+    Provider.of<InterfaceProvider>(context, listen: false).setSunday(solenoidTaskCheck.sunday!);
+    Provider.of<InterfaceProvider>(context, listen: false).setMonday(solenoidTaskCheck.monday!);
+    Provider.of<InterfaceProvider>(context, listen: false).setTuesday(solenoidTaskCheck.tuesday!);
+    Provider.of<InterfaceProvider>(context, listen: false).setWednesday(solenoidTaskCheck.wednesday!);
+    Provider.of<InterfaceProvider>(context, listen: false).setThursday(solenoidTaskCheck.thursday!);
+    Provider.of<InterfaceProvider>(context, listen: false).setFriday(solenoidTaskCheck.friday!);
+    Provider.of<InterfaceProvider>(context, listen: false).setSaturday(solenoidTaskCheck.saturday!);
+    _daysDate[0] = solenoidTaskCheck.days[0];
+    _daysDate[1] = solenoidTaskCheck.days[1];
+    _daysDate[2] = solenoidTaskCheck.days[2];
+    _daysDate[3] = solenoidTaskCheck.days[3];
+    _daysDate[4] = solenoidTaskCheck.days[4];
+    _daysDate[5] = solenoidTaskCheck.days[5];
+    _daysDate[6] = solenoidTaskCheck.days[6];
+    
+
   }
 
   //!time diff check user error
@@ -238,51 +256,79 @@ void bottomSheetWidget(
                   children: [
                     WeekDayToggle(
                         text: 'Su',
-                        current:
-                        context.watch<InterfaceProvider>().days[0],
+                        current: 
+                        // action == 'add' ?  context.watch<InterfaceProvider>().days[0] : context.watch<InterfaceProvider>().days[0],
+                         context.watch<InterfaceProvider>().days[0],
+
+                        
                         onToggle: (sunday) {
-                          log('sunday is $sunday');
-                          Provider.of<InterfaceProvider>(context, listen: false).setSunday(sunday);
-                          log('${solenoidTaskCheck?.toJson()}');
+                           
+                            Provider.of<InterfaceProvider>(context, listen: false).setSunday(sunday);
+                         
+                            _daysDate[0] = sunday;
+                          
+                         
+
+                          
                         }),
                     WeekDayToggle(
                         text: 'Mo',
                         // current: true,
-                        current: context.watch<InterfaceProvider>().days[1],
+                        // current: context.watch<InterfaceProvider>().days[1],
+                        current : context.watch<InterfaceProvider>().days[1],
+                        // current : action == 'add' ?  context.watch<InterfaceProvider>().days[1] : solenoidTaskCheck!.days[1],
                         onToggle: (monday) {
-                          Provider.of<InterfaceProvider>(context, listen: false).setMonday(monday);
+                  
+                            Provider.of<InterfaceProvider>(context, listen: false).setMonday(monday);
+                            _daysDate[1] = monday;
+                       
+                         
                         }),
                     WeekDayToggle(
                         text: 'Tu',
                         // current: false,
-                        current: context.watch<InterfaceProvider>().days[2],
+                        // current: context.watch<InterfaceProvider>().days[2],
+                        current : context.watch<InterfaceProvider>().days[2],
                         onToggle: (tuesday) {
                           Provider.of<InterfaceProvider>(context, listen: false).setTuesday(tuesday);
+                          _daysDate[2] = tuesday;
                         }),
                     WeekDayToggle(
                         text: 'We',
-                        current: context.watch<InterfaceProvider>().days[3],
+                        current :context.watch<InterfaceProvider>().days[3],
+                        // current: context.watch<InterfaceProvider>().days[3],
                         onToggle: (wednesday) {
                           Provider.of<InterfaceProvider>(context, listen: false).setWednesday(wednesday);
+                          _daysDate[3] = wednesday;
                         }),
                     WeekDayToggle(
                         text: 'Th',
                         // current: false,
-                        current: context.watch<InterfaceProvider>().days[4],
+                        // current: solenoidTaskCheck.days[4], 
+                        current :context.watch<InterfaceProvider>().days[4],
+                        // current: context.watch<InterfaceProvider>().days[4],
                         onToggle: (thursday) {
                           Provider.of<InterfaceProvider>(context, listen: false).setThursday(thursday);
+                          _daysDate[4] = thursday;
+
                         }),
                     WeekDayToggle(
                         text: 'Fr',
-                        current: context.watch<InterfaceProvider>().days[5],
+                        current : context.watch<InterfaceProvider>().days[5],
+                        // current: solenoidTaskCheck.days[5], 
+                        // current: context.watch<InterfaceProvider>().days[5],
                         onToggle: (friday) {
                           Provider.of<InterfaceProvider>(context, listen: false).setFriday(friday);
+                          _daysDate[5] = friday;
                         }),
                     WeekDayToggle(
                         text: 'Sa',
-                        current: context.watch<InterfaceProvider>().days[6],
+                        current : context.watch<InterfaceProvider>().days[6],
+                        // current: solenoidTaskCheck.days[6], 
+                        // current: context.watch<InterfaceProvider>().days[6],
                         onToggle: (saturday) {
                           Provider.of<InterfaceProvider>(context, listen: false).setSaturday(saturday);
+                          _daysDate[6] = saturday;
                         }),
                   ],
                 ),
@@ -374,6 +420,7 @@ void bottomSheetWidget(
                       if (_formKey.currentState!.validate()) {
                         if (action == 'add' && getTime(_startDate, _endDate)) {
                           // get
+                          // log("${_daysDate}");
                           log('State time is ${getTime(_startDate, _endDate)}');
                           DeviceTaskModel solenoidTask = DeviceTaskModel(
                             id: solenoidDevice.id,
@@ -381,7 +428,16 @@ void bottomSheetWidget(
                             date: DateTime.now(),
                             startDate: _startTimeController.text,
                             endDate:  _endTimeController.text,
+                            
                             //! day select
+                            sunday: _daysDate[0],
+                            monday: _daysDate[1],
+                            tuesday: _daysDate[2],
+                            wednesday: _daysDate[3],
+                            thursday: _daysDate[4],
+                            friday: _daysDate[5],
+                            saturday: _daysDate[6],
+
                             // sunday: ,
                           );
                           log('${solenoidTask.toJson()}');
@@ -391,6 +447,14 @@ void bottomSheetWidget(
                           _titleController.clear();
                           _startTimeController.clear();
                           _endTimeController.clear();
+                          //? reset day in provider
+                          Provider.of<InterfaceProvider>(context, listen: false).setSunday(false);
+                          Provider.of<InterfaceProvider>(context, listen: false).setMonday(false);
+                          Provider.of<InterfaceProvider>(context, listen: false).setTuesday(false);
+                          Provider.of<InterfaceProvider>(context, listen: false).setWednesday(false);
+                          Provider.of<InterfaceProvider>(context, listen: false).setThursday(false);
+                          Provider.of<InterfaceProvider>(context, listen: false).setFriday(false);
+                          Provider.of<InterfaceProvider>(context, listen: false).setSaturday(false);
                           Navigator.pop(context);
                         }
                         if (action == 'update' && getTime(_startDate, _endDate)) {
@@ -402,10 +466,26 @@ void bottomSheetWidget(
                               date: DateTime.now(),
                               startDate: _startTimeController.text,
                               endDate:  _endTimeController.text,
+                              //! day select
+                              sunday: _daysDate[0],
+                              monday: _daysDate[1],
+                              tuesday: _daysDate[2],
+                              wednesday: _daysDate[3],
+                              thursday: _daysDate[4],
+                              friday: _daysDate[5],
+                              saturday: _daysDate[6],
                               );
                           taskDB.updateTask(solenoidDevice, solenoidTask);
                           log('updated');
                             _titleController.clear();
+                          //!clear Provider status
+                          Provider.of<InterfaceProvider>(context, listen: false).setSunday(false);
+                          Provider.of<InterfaceProvider>(context, listen: false).setMonday(false);
+                          Provider.of<InterfaceProvider>(context, listen: false).setTuesday(false);
+                          Provider.of<InterfaceProvider>(context, listen: false).setWednesday(false);
+                          Provider.of<InterfaceProvider>(context, listen: false).setThursday(false);
+                          Provider.of<InterfaceProvider>(context, listen: false).setFriday(false);
+                          Provider.of<InterfaceProvider>(context, listen: false).setSaturday(false);
                         Navigator.pop(context);
                         }
                         // _titleController.clear();
@@ -425,7 +505,17 @@ void bottomSheetWidget(
         ),
       );
     },
-  );
+  ).whenComplete((){ 
+    //! for bottomsheet exit 
+    log('Exit');
+    Provider.of<InterfaceProvider>(context, listen: false).setSunday(false);
+    Provider.of<InterfaceProvider>(context, listen: false).setMonday(false);
+    Provider.of<InterfaceProvider>(context, listen: false).setTuesday(false);
+    Provider.of<InterfaceProvider>(context, listen: false).setWednesday(false);
+    Provider.of<InterfaceProvider>(context, listen: false).setThursday(false);
+    Provider.of<InterfaceProvider>(context, listen: false).setFriday(false);
+    Provider.of<InterfaceProvider>(context, listen: false).setSaturday(false);
+  });
 }
 
 InputBorder customBorder(Color color) {

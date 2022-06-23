@@ -28,19 +28,20 @@ class DeviceTaskModel {
   int? hour;
   int? minute;
 
-  bool? monday;
-  // @HiveField(5)
-  bool? tuesday;
-  // @HiveField(6)
-  bool? wednesday;
-  // @HiveField(7)
-  bool? thursday;
-  // @HiveField(8)
-  bool? friday;
-  // @HiveField(9)
-  bool? saturday;
-  // @HiveField(10)
-  bool? sunday;
+  @HiveField(6)
+   bool? monday;
+  @HiveField(7)
+   bool? tuesday;
+  @HiveField(8)
+   bool? wednesday;
+  @HiveField(9)
+   bool? thursday;
+  @HiveField(10)
+   bool? friday;
+  @HiveField(11)
+   bool? saturday;
+  @HiveField(12)
+   bool? sunday;
 
   DeviceTaskModel({
     this.id,
@@ -64,7 +65,7 @@ class DeviceTaskModel {
   };
 
   List<bool> get days {
-    return [sunday!, monday!, thursday!, wednesday!, thursday!, friday!, saturday!];
+    return [sunday!, monday!,tuesday!, wednesday!, thursday!, friday!, saturday!];
   }
 
   List<int?> get times {
