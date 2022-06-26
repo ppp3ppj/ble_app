@@ -1,6 +1,29 @@
 import 'package:flutter/foundation.dart';
 
 class InterfaceProvider extends ChangeNotifier {
+  // //! slider select
+  // double _currentValueSlider = 0.0;
+  // void changeValueSlider(double value) {
+  //   _currentValueSlider = value;
+  //   notifyListeners();
+  // }
+  // double get currentValueSlider => _currentValueSlider;
+
+  // //! slider rangeSlider widget
+  // double _startValueRangeSlider = 0;
+  // double _endValueRangeSlider = 0;
+  // void changeValueRangeSlider(double startValue, double endValue) {
+  //   _startValueRangeSlider = startValue;
+  //   _endValueRangeSlider = endValue;
+  //   notifyListeners();
+  // }
+  // double get startValueRangeSlider => _startValueRangeSlider;
+  // double get endValueRangeSlider => _endValueRangeSlider;
+
+
+
+
+
   //! Day select
   bool _monday = false;
   bool _tuesday = false;

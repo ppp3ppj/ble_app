@@ -1,7 +1,6 @@
 // import 'dart:html';
 import 'package:ble_app/src/models/db/device_task_model.dart';
 import 'package:ble_app/src/routes/router.gr.dart';
-import 'package:ble_app/src/widgets/auto_dialog_widget.dart';
 import 'package:ble_app/src/widgets/bottomsheet_widget.dart'; //! widget add/update
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -63,43 +62,20 @@ class DevicesTaskScreen extends StatelessWidget {
                       children: [
                         GlobalText(
                           text: (solenoidDevice != null)
-                              ? 'Task Scheduler'
+                              ? 'Task Scheduler setting'
                               : 'null',
                           fontSize: 30,
                           color: Color.fromARGB(255, 0, 16, 43),
                         ),
-                        Row(
-                          children: [
-                            InkWell(
-                              child: Container(
-                                height: 35.0,
-                                width: 35.0,
-                                decoration: BoxDecoration(
-                                  // color: Colors.amber,
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                child: Icon(Icons.auto_mode_rounded),
-                              ),
-                              onTap: () {
-                                log('auto tap');
-                                autoShowDialog(context, solenoidDevice);
-
-                              },
-                            ),
-                            const SizedBox(width: 8,),
-                            //TODO: add sensor when click icons later when do sensor screen done 
-                            Container(
-                              height: 35.0,
-                              width: 35.0,
-                              decoration: BoxDecoration(
-                                // color: Colors.amber,
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Icon(Icons.settings_input_component_rounded),
-                            ),
-                          ],
+                        Container(
+                          height: 35.0,
+                          width: 35.0,
+                          decoration: BoxDecoration(
+                            // color: Colors.amber,
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Icon(Icons.settings_input_component_rounded),
                         ),
                       ],
                     ),
@@ -124,7 +100,7 @@ class DevicesTaskScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Container(
-                      // decoration: BoxDecoration(color: Colors.blue),
+                      decoration: BoxDecoration(color: Colors.blue),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -171,7 +147,6 @@ class DevicesTaskScreen extends StatelessWidget {
                                       GlobalText(text: solenoidDevice.title, fontSize: 25,fontHeightSpace: 0,),
                                       GlobalText(text: 'Status : ' '${(context.watch<TaskAllModelProvider>().active == true) ? 'ON | เปิด' : 'OFF | ปิด' }', fontSize: 18),
                                       // GlobalText(text: 'ค่าต่ำสุด(ON) : 40', fontSize: 14),
-                                     
                                       // GlobalText(text: 'ค่าสูงสุด(OFF) : 50', fontSize: 14),
                                       // GlobalText(text: solenoidDevice.title, fontSize: 25,),
                                       // Text('เปิดการทำงานของอุปกรณ์'),

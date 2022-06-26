@@ -11,6 +11,7 @@ class InputField extends StatelessWidget {
     this.iconData, 
     required this.iconOrdrop, 
     this.widget, 
+    this.keyBoardType = TextInputType.text,
     }) : super(key: key);
 
   final String label;
@@ -20,7 +21,8 @@ class InputField extends StatelessWidget {
   final String iconOrdrop;
   final Widget? widget;
   final bool isEnabled;
-
+  //!keyboard type set
+  final TextInputType? keyBoardType;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -33,6 +35,7 @@ class InputField extends StatelessWidget {
         TextFormField(
           readOnly: !isEnabled,
           controller: controller,
+          keyboardType: keyBoardType,
           validator: (value){
             if(value.toString().isEmpty) {
               return 'Please Enter ${label}';

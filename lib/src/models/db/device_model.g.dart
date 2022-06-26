@@ -22,13 +22,15 @@ class DeviceModelAdapter extends TypeAdapter<DeviceModel> {
       title: fields[1] as String,
       status: fields[3] as bool,
       statusTask: fields[4] as bool,
+      autoMaxOff: fields[6] as int,
+      autoMinOn: fields[5] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, DeviceModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -38,7 +40,11 @@ class DeviceModelAdapter extends TypeAdapter<DeviceModel> {
       ..writeByte(3)
       ..write(obj.status)
       ..writeByte(4)
-      ..write(obj.statusTask);
+      ..write(obj.statusTask)
+      ..writeByte(5)
+      ..write(obj.autoMinOn)
+      ..writeByte(6)
+      ..write(obj.autoMaxOff);
   }
 
   @override

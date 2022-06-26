@@ -1,7 +1,6 @@
 // import 'dart:html';
 import 'package:ble_app/src/models/db/device_task_model.dart';
 import 'package:ble_app/src/routes/router.gr.dart';
-import 'package:ble_app/src/widgets/auto_dialog_widget.dart';
 import 'package:ble_app/src/widgets/bottomsheet_widget.dart'; //! widget add/update
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -68,38 +67,15 @@ class DevicesTaskScreen extends StatelessWidget {
                           fontSize: 30,
                           color: Color.fromARGB(255, 0, 16, 43),
                         ),
-                        Row(
-                          children: [
-                            InkWell(
-                              child: Container(
-                                height: 35.0,
-                                width: 35.0,
-                                decoration: BoxDecoration(
-                                  // color: Colors.amber,
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                child: Icon(Icons.auto_mode_rounded),
-                              ),
-                              onTap: () {
-                                log('auto tap');
-                                autoShowDialog(context, solenoidDevice);
-
-                              },
-                            ),
-                            const SizedBox(width: 8,),
-                            //TODO: add sensor when click icons later when do sensor screen done 
-                            Container(
-                              height: 35.0,
-                              width: 35.0,
-                              decoration: BoxDecoration(
-                                // color: Colors.amber,
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Icon(Icons.settings_input_component_rounded),
-                            ),
-                          ],
+                        Container(
+                          height: 35.0,
+                          width: 35.0,
+                          decoration: BoxDecoration(
+                            // color: Colors.amber,
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Icon(Icons.settings_input_component_rounded),
                         ),
                       ],
                     ),
@@ -114,117 +90,162 @@ class DevicesTaskScreen extends StatelessWidget {
                 children: [
                   Container(
                     // padding: const EdgeInsets.all(10),
-                    padding: const EdgeInsets.only(top: 5.0, right: 10.0, left: 10.0, bottom: 5.0),
+                    padding: const EdgeInsets.only(top: 5.0, right: 10.0, left: 10.0, bottom: 15.0),
                     width: screenSize.width,
                     // height: screenSize.height * 0.16,
-                    height: screenSize.height * 0.16,
+                    height: screenSize.height * 0.1648,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       // color: Colors.amber,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Container(
-                      // decoration: BoxDecoration(color: Colors.blue),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          // decoration: BoxDecoration(color: Colors.blue),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Column(
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Row(
+                                  Column(
                                     children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                        // color: Colors.amber
-                                        ),
-                                        // height: screenSize.height * 0.5,
-                                        // height: screenSize.height * 0.11,
-                                        // width: screenSize.width * 0.24,
-                                        // child:  AssetImage("assets/images/icons/icon_png/Solenoid.png"),
-                                        child: SvgPicture.asset(
-                                            'assets/images/icons/solenoid2.svg',
-                                            // width: screenSize.width * 0.3,
-                                            height: screenSize.height * 0.1,
+                                      Row(
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                            // color: Colors.amber
                                             ),
-                                        // child: Image(
-                                        //   image: AssetImage(
-                                        //     "assets/images/icons/icon_png/Solenoid_2.png",
-                                        //   ),
-                                        // ),
+                                            // height: screenSize.height * 0.5,
+                                            // height: screenSize.height * 0.11,
+                                            // width: screenSize.width * 0.24,
+                                            // child:  AssetImage("assets/images/icons/icon_png/Solenoid.png"),
+                                            child: SvgPicture.asset(
+                                                'assets/images/icons/solenoid2.svg',
+                                                // width: screenSize.width * 0.3,
+                                                height: screenSize.height * 0.1,
+                                                ),
+                                            // child: Image(
+                                            //   image: AssetImage(
+                                            //     "assets/images/icons/icon_png/Solenoid_2.png",
+                                            //   ),
+                                            // ),
+                                          ),
+                                          // Text('data'),
+                                          // SvgPicture.asset('assets/images/icons/solenoid2.svg'),
+                                          SizedBox(
+                                            width: 12.0,
+                                          ),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              // color: Colors.white,
+                                              // color: Colors.amber
+                                            ),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                          GlobalText(text: solenoidDevice.title, fontSize: 25,fontHeightSpace: 0,),
+                                          GlobalText(text: 'Status : ' '${(context.watch<TaskAllModelProvider>().active == true) ? 'ON | เปิด' : 'OFF | ปิด' }', fontSize: 18),
+                                          // GlobalText(text: 'ค่าต่ำสุด(ON) : 40', fontSize: 14),
+                                          // GlobalText(text: 'ค่าสูงสุด(OFF) : 50', fontSize: 14),
+                                          // GlobalText(text: solenoidDevice.title, fontSize: 25,),
+                                          // Text('เปิดการทำงานของอุปกรณ์'),
+                                          // Text('data'),
+                                              ],
+                                            )
+                                          ),
+                                          // Text('data'),
+                                          // Text('data'),
+                                        ],
                                       ),
-                                      // Text('data'),
-                                      // SvgPicture.asset('assets/images/icons/solenoid2.svg'),
-                                      SizedBox(
-                                        width: 12.0,
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          // color: Colors.white,
-                                          // color: Colors.amber
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                      GlobalText(text: solenoidDevice.title, fontSize: 25,fontHeightSpace: 0,),
-                                      GlobalText(text: 'Status : ' '${(context.watch<TaskAllModelProvider>().active == true) ? 'ON | เปิด' : 'OFF | ปิด' }', fontSize: 18),
-                                      // GlobalText(text: 'ค่าต่ำสุด(ON) : 40', fontSize: 14),
-                                     
-                                      // GlobalText(text: 'ค่าสูงสุด(OFF) : 50', fontSize: 14),
-                                      // GlobalText(text: solenoidDevice.title, fontSize: 25,),
-                                      // Text('เปิดการทำงานของอุปกรณ์'),
-                                      // Text('data'),
-                                          ],
-                                        )
-                                      ),
-                                      // Text('data'),
                                       // Text('data'),
                                     ],
                                   ),
                                   // Text('data'),
+                                  // Switch(
+                                  //   onChanged: (val) {
+                                  //     log('Switch value : $val');
+                                  //     // Provider.of(context)<TaskAllModelProvider>(context, listen: false).setActive(val);
+                                  //     Provider.of<TaskAllModelProvider>(context,
+                                  //             listen: false)
+                                  //         .setActive(val);
+                                  //   },
+                                  //   value: context
+                                  //       .watch<TaskAllModelProvider>()
+                                  //       .active,
+                                  // ),
+                                  FlutterSwitch(
+                                    // width: 125.0,
+  
+                                    // width: screenSize.width * 1,
+                                    width: 55,
+                                    height: 30,
+                                    // height: screenSize.height * 0.05,
+                                    // value: context
+                                    //     .watch<TaskAllModelProvider>()
+                                    //     .active,
+                                      value: solenoidDevice.status,
+                                     onToggle: (val) {
+                                       log('Switch value : $val');
+                                      // Provider.of(context)<TaskAllModelProvider>(context, listen: false).setActive(val);
+                                      solenoidDevice.status = val;
+                                      Provider.of<TaskAllModelProvider>(context, listen: false).updateDevice(solenoidDevice);
+                                      Provider.of<TaskAllModelProvider>(context,
+                                              listen: false)
+                                          .setActive(val);
+                                     },
+                                  ),
                                 ],
                               ),
                               // Text('data'),
-                              // Switch(
-                              //   onChanged: (val) {
-                              //     log('Switch value : $val');
-                              //     // Provider.of(context)<TaskAllModelProvider>(context, listen: false).setActive(val);
-                              //     Provider.of<TaskAllModelProvider>(context,
-                              //             listen: false)
-                              //         .setActive(val);
-                              //   },
-                              //   value: context
-                              //       .watch<TaskAllModelProvider>()
-                              //       .active,
-                              // ),
-                              FlutterSwitch(
-                                // width: 125.0,
-  
-                                // width: screenSize.width * 1,
-                                width: 55,
-                                height: 30,
-                                // height: screenSize.height * 0.05,
-                                // value: context
-                                //     .watch<TaskAllModelProvider>()
-                                //     .active,
-                                  value: solenoidDevice.status,
-                                 onToggle: (val) {
-                                   log('Switch value : $val');
-                                  // Provider.of(context)<TaskAllModelProvider>(context, listen: false).setActive(val);
-                                  solenoidDevice.status = val;
-                                  Provider.of<TaskAllModelProvider>(context, listen: false).updateDevice(solenoidDevice);
-                                  Provider.of<TaskAllModelProvider>(context,
-                                          listen: false)
-                                      .setActive(val);
-                                 },
-                              ),
                             ],
                           ),
-                          // Text('data'),
-                        ],
-                      ),
+                        ),
+                        // SizedBox(height: 4,),
+                        // Divider(height: 0,),
+                        // SizedBox(height: 1,),
+                        // Text('data is Test'),
+                        // SizedBox(width: 2,),
+                        //! show data % 
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
+                              child: Row(
+                                children: [
+                                   Icon(Icons.power_outlined, color: Colors.green,),
+                                    const SizedBox(
+                                        width: 8,
+                                    ),
+                                    GlobalText(text: 'text',fontSize: 16,)
+                                ],
+                              ),
+                            ),
+                           
+                            Container(
+                              child: Row(
+                                children: [
+                                  Icon(Icons.power_off_outlined, color: Colors.red,),
+                                  //  Icon(Icons.power_outlined, color: Colors.green,),
+                                    const SizedBox(
+                                        width: 8,
+                                    ),
+                                    GlobalText(text: 'text',fontSize: 16,)
+                                ],
+                              ),
+                            ),
+                            
+                            // GlobalText(text: 'ค่าความชื้นในดินต่ำสุด(เปิด)',fontSize: 16,),
+                            // GlobalText(text: 'ค่าความชื้นในดินต่ำสุด(ปิด)',fontSize: 16,),
+                            // GlobalText(text: 'data is Test',fontSize: 16,)
+
+                          ],
+                        )
+
+                      ],
                     ),
                   ),
                   // Container(
@@ -254,6 +275,7 @@ class DevicesTaskScreen extends StatelessWidget {
                         Container(
                       width: screenSize.width,
                       height: screenSize.height * 0.63,
+                      // height: screenSize.height * 0.63,
                       margin: const EdgeInsets.only(bottom: 10),
                       decoration: BoxDecoration(
                         // color: Colors.grey,

@@ -247,8 +247,8 @@ void bottomSheetWidget(
                       ),
       
                       const SizedBox(height: 12,),
-                      GlobalText(text: 'Duration : ', fontSize: 17, fontWeight: FontWeight.bold,),
-                      const SizedBox(height: 12,),
+                      GlobalText(text: 'Duration', fontSize: 17, fontWeight: FontWeight.bold,),
+                      const SizedBox(height: 2,),
                       GlobalText(text: 'Repeat Day', fontSize: 17,),
                       const SizedBox(height: 5,),
                       Row(
@@ -334,6 +334,21 @@ void bottomSheetWidget(
                 ),
           
                 // const SizedBox(height: 12,),
+                // Slider(
+                //   value: Provider.of<InterfaceProvider>(context).currentValueSlider, 
+                //   onChanged: (value) {
+                //      Provider.of<InterfaceProvider>(context, listen: false).changeValueSlider(value);
+                //      log('Slider value is ${value}');
+                //   },
+                // ),
+                // RangeSlider(
+                //   values: RangeValues(Provider.of<InterfaceProvider>(context).startValueRangeSlider,Provider.of<InterfaceProvider>(context).endValueRangeSlider), 
+                //   onChanged: (values) {
+                //     Provider.of<InterfaceProvider>(context, listen: false).changeValueRangeSlider(values.start, values.end);
+                //     log('Values Start :${values.start*100}');
+                //     log('Values End :${values.end*100}');
+                //   },
+                // ),
                 //       TextFormField(
                 //         // enabled: false,
                         
@@ -413,7 +428,7 @@ void bottomSheetWidget(
                 // ),
           
                 
-                const SizedBox(height: 30),
+                const SizedBox(height: 10),
                 ElevatedButton(
                     onPressed: () {
                       
@@ -498,7 +513,15 @@ void bottomSheetWidget(
                     child: GlobalText(
                       text: action == 'add' ? 'Save' : 'Update',
                       color: Colors.white,
-                    ))
+                      fontSize: 18,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0)
+                      )
+                    ),
+                  ),
+                    const SizedBox(height: 20,)
               ],
             ),
           ),

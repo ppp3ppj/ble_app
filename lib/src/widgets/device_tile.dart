@@ -95,10 +95,12 @@ class DeviceTile extends StatelessWidget {
                                           children: [
                                       GlobalText(text: solenoidDevice.title, fontSize: 22, fontHeightSpace: 0, fontWeight: FontWeight.bold,),
                                       //TODO: Do it later it's wait TODO Done
-                                      GlobalText(text: 'เเก้ไขล่าสุด :  an hour ago' , fontSize: 16, color: Colors.grey,),
+                                      // GlobalText(text: 'เเก้ไขล่าสุด :  an hour ago' , fontSize: 16, color: Colors.grey,),
+                                      GlobalText(text: 'การทำงานอัตโนมัติ : เปิด' , fontSize: 16, color: Colors.grey,),
+                                      // GlobalText(text: 'ความชื้น ON  : 0 %' , fontSize: 16, color: Colors.grey,),
+                                      // GlobalText(text: 'ความชื้น OFF : 0 %' , fontSize: 16, color: Colors.grey,),
                                       // GlobalText(text: 'Status : เปิด', fontSize: 18),
                                       // GlobalText(text: solenoidDevice.title, fontSize: 25,),
-                                      // Text('เปิดการทำงานของอุปกรณ์'),
                                           ],
                                         )
                                       ),
