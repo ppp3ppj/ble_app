@@ -9,6 +9,7 @@ class GlobalText extends StatelessWidget {
     this.color = Colors.black,
     this.fontFamily = 'Kanit',
     this.fontHeightSpace = 0.0,
+    this.textAlign,
   }) : super(key: key);
 
   final String text;
@@ -17,6 +18,8 @@ class GlobalText extends StatelessWidget {
   final Color color;
   final String fontFamily;
   final double fontHeightSpace;
+  final TextAlign? textAlign;
+  //? align text setting
   @override
   Widget build(BuildContext context) {
     return Text(
@@ -30,6 +33,7 @@ class GlobalText extends StatelessWidget {
         height: fontHeightSpace,
         // letterSpacing: 1.0,
       ),
+      textAlign: textAlign,
     );
   }
 }

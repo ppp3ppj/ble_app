@@ -26,12 +26,8 @@ class TaskAllModelProvider extends ChangeNotifier {
     activeTask = value;
   }
 
-  String name = 'SolenoidVProvider';
-  String get names => name;
-
-
   //TODO: Create getter for solenoid device
-  List<DeviceModel> solenoid_list = [
+  List<DeviceModel> _solenoidList = [
     //TODO: store in local data base plese :() 
     // DeviceModel(id: 1, title: 'Solenoid ตัวที่ 1'),
     // DeviceModel(id: 2, title: 'Solenoid ตัวที่ 2'),
@@ -39,6 +35,7 @@ class TaskAllModelProvider extends ChangeNotifier {
     // DeviceModel(id: 4, title: 'Solenoid ตัวที่ 4'),
     // DeviceModel(id: 5, title: 'Solenoid ตัวที่ 5'),
   ];
+  List<DeviceModel> get solenoidList => _solenoidList.toList();
 
   List<DeviceTaskModel> _solenoidTaskList = []; //? taskList
   List<DeviceTaskModel> get solenoidTaskList => _solenoidTaskList.toList();
@@ -84,8 +81,8 @@ class TaskAllModelProvider extends ChangeNotifier {
   //!fucntion for Solenoid Device
   Future<void> getAllDevice() async {
   final taskDB = await Hive.openBox<DeviceModel>('device_db');
-  solenoid_list.clear();
-  solenoid_list.addAll(taskDB.values);
+  _solenoidList.clear();
+  _solenoidList.addAll(taskDB.values);
   notifyListeners();
   }
 
@@ -93,7 +90,6 @@ class TaskAllModelProvider extends ChangeNotifier {
     final taskDB = await Hive.openBox<DeviceModel>('device_db');
     log('${device.toJson()}');
     await taskDB.put(device.id, device);
-
     getAllDevice();
   }
 

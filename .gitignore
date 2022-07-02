@@ -50,3 +50,5 @@ app.*.map.json
 #images and icons
 # .assets
 assets/
+# setting luanch emulator
+.vscode/launch.json

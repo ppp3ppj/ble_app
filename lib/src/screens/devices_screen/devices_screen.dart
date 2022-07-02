@@ -14,16 +14,13 @@ class DevicesScreen extends StatelessWidget {
     context.watch<TaskAllModelProvider>().getAllDevice();
     return Consumer<TaskAllModelProvider>(builder: (context, value, child) {
       return Scaffold(
-        appBar: AppBar(
-          title: Text('${value.names}'),
-        ),
         body: ListView.builder(
-          itemCount: value.solenoid_list.length,
+          itemCount: value.solenoidList.length,
           itemBuilder: (context, index) {
               // log('index : ${index}, value : ${value.solenoid_list[index].id}'); 
               // log('${value.solenoid_list[0]}');
               // log('${value.solenoid_list[index]}');
-              return DeviceTile(solenoidDevice: value.solenoid_list[index],);
+              return DeviceTile(solenoidDevice: value.solenoidList[index],);
           },
           ),
           // flo

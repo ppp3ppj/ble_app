@@ -4,7 +4,9 @@ import 'dart:developer';
 import 'package:ble_app/src/models/constant.dart';
 import 'package:ble_app/src/models/db/device_task_model.dart';
 import 'package:ble_app/src/models/db/device_model.dart';
+import 'package:ble_app/src/models/db/sensor_model.dart';
 import 'package:ble_app/src/provider/interface_provider.dart';
+import 'package:ble_app/src/provider/sensor_model_provider.dart';
 import 'package:ble_app/src/provider/taskall_model_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:ble_app/src/routes/router.gr.dart'; //? route
@@ -48,6 +50,21 @@ Future<void> main() async {
     log('Hive registerAdapter : Done at Type id : ${DeviceTaskModelAdapter().typeId}');
   }
 
+  if(!Hive.isAdapterRegistered(SensorModelAdapter().typeId)) {
+    Hive.registerAdapter(SensorModelAdapter());
+    List<SensorModel> listSensorModel = [
+       SensorModel(id: 1, name: 'Sensor ตัวที่ 1'),
+       SensorModel(id: 2, name: 'Sensor ตัวที่ 2'),
+       SensorModel(id: 3, name: 'Sensor ตัวที่ 3'),
+    ];
+    addSensorDevice(listSensorModel[0]);
+    addSensorDevice(listSensorModel[1]);
+    addSensorDevice(listSensorModel[2]);
+    log('Hive registerAdapter : Done at Type id : ${SensorModelAdapter().typeId}');
+  }
+
+  
+
   
   // Hive.registerAdapter(DeviceTaskModelAdapter());
   runApp(
@@ -55,6 +72,7 @@ Future<void> main() async {
     providers: [
       ChangeNotifierProvider(create: (_) => TaskAllModelProvider()),
       ChangeNotifierProvider(create: (_) => InterfaceProvider()),
+      ChangeNotifierProvider(create: (_) => SensorModelProvider()), //? sensor provider
     ],
     child: MyApp(),
   ));

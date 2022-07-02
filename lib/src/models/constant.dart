@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:ble_app/src/models/db/device_model.dart';
+import 'package:ble_app/src/models/db/sensor_model.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -26,5 +27,15 @@ Future<void> addDeviceData(DeviceModel device) async {
   }
   log('dont create');
   // if(check == )
+}
 
+Future<void> addSensorDevice(SensorModel sensorDevice) async {
+  final sensorDB = await Hive.openBox<SensorModel>('sensor_db');
+  final check = await sensorDB.get(sensorDevice.id);
+  log('${sensorDevice.id}');
+  if(check?.id == null) {
+    sensorDB.put(sensorDevice.id, sensorDevice);
+    log('Create sensor device is done');
+  }
+  log('dont create sensor device');
 }

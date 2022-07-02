@@ -4,6 +4,9 @@ import 'package:ble_app/src/provider/taskall_model_provider.dart';
 import 'package:ble_app/src/screens/devices_screen/devices_screen.dart';
 import 'package:ble_app/src/screens/devices_task_screen/add_update_task_screen.dart';
 import 'package:ble_app/src/screens/devices_task_screen/devices_task_screen.dart';
+import 'package:ble_app/src/screens/home_screen.dart';
+import 'package:ble_app/src/screens/logs_screen/logs_screen.dart';
+import 'package:ble_app/src/screens/sensors_screen/sensors_screen.dart';
 
 import 'package:ble_app/src/screens/welcome_screen.dart';
 
@@ -20,16 +23,37 @@ import 'package:ble_app/src/screens/welcome_screen.dart';
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',
   routes: <AutoRoute> [
-    AutoRoute(page: WelcomeScreen, initial: true),
+    AutoRoute(page: WelcomeScreen, initial: true), //! set initial route to first page
+    AutoRoute(
+      path: '/home/',
+      page: HomeScreen,
+      children: [
+        AutoRoute(
+          path: 'device',
+          name: 'DeviceListRouter',
+          page: DevicesScreen,
+        ),
+        AutoRoute(
+          path: 'sensor',
+          name: 'SensorListRouter',
+          page: SensorsScreen
+        ),
+        AutoRoute(
+          path: 'log',
+          name: 'LogListRouter',
+          page: LogsScreen,
+        ),
+
+      ],
+    ),
     AutoRoute(path: '/DevicesList', page: DevicesScreen),
-    // AutoRoute(path: '/solenoid/task', page: Sole1),
     AutoRoute(page: DevicesTaskScreen),
     AutoRoute(page: AddUpdateTaskScreen), //!now not use
+
     // CustomRoute(
     //   page: AddUpdateTaskScreen,
     //   transitionsBuilder: TransitionsBuilders.slideLeftWithFade
     // ),
-    // AutoRoute(Solenoid)
 
   ],
 )
