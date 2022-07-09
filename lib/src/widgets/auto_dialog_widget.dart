@@ -71,21 +71,51 @@ Future<void> autoShowDialog(BuildContext context, DeviceModel solenoidDevice) {
                       )
                     ),
                     onPressed: () {
-                   
+                        RegExp double2decimal =
+                          // RegExp(r'^(\d+(\.\d{0,2})?|\.?\d{1,2})$');
+                          RegExp(r'^(?:-?(?:[0-9]+))?(?:\.[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?$');
+                          // RegExp(r'^((?:[0-9]+))?(?:\.[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?$');
+                        RegExp _numeric = RegExp(r'^[0-9]+$');
+                          log('${_minController.text} : ${_maxController.text}');
+                          if(_numeric.hasMatch(_minController.text) == false || _numeric.hasMatch(_maxController.text) == false) {
+                            _minController.clear();
+                            _maxController.clear();
+                          }
+                          // if(
+                          //   (_minController.text == '-' && _maxController.text == '-') 
+                          //   || _maxController.text == '-' 
+                          //   || _minController.text == '-' 
+                          //   && (_minController.text == ' ' && _maxController.text == ' ') 
+                          //   || _maxController.text == ' ' 
+                          //   || _minController.text == ' ' 
+                          //   && (_minController.text == '.' && _maxController.text == '.') 
+                          //   || _maxController.text == '.' 
+                          //   || _minController.text == '.' 
+                          //   && (_minController.text == ',' && _maxController.text == ',') 
+                          //   || _maxController.text == ',' 
+                          //   || _minController.text == ',' 
+                          //   ) {
+                          //   _minController.clear();
+                          //   _maxController.clear();
+                          // }
+                          //TODO: if value is same i think error
                       if(_formKey.currentState!.validate()) {   
-                        log('${_minController.text} : ${_maxController.text}');
-                        //* type cast string to int
-                        solenoidDevice.autoMinOn = int.tryParse(_minController.text)!;
-                        solenoidDevice.autoMaxOff = int.tryParse(_maxController.text)!;
-                        log('${solenoidDevice.toJson()}');
-                        //! update value to hive database
-                        Provider.of<TaskAllModelProvider>(context, listen: false).updateDevice(solenoidDevice);
-                        //* pop context 
-                        Navigator.pop(context);
-
-
-                      }
-
+                        if( ( (int.tryParse(_minController.text))! >= 0 && (int.tryParse(_maxController.text))! >= 0 ) 
+                        && ( (int.tryParse(_minController.text))! <= 100 && (int.tryParse(_maxController.text))! <= 100 ) 
+                        && checkInputController(min: _minController.text, max: _maxController.text) == true
+                        ) {
+                          log(checkInputController(min: _minController.text, max: _maxController.text).toString());
+                          log('${_minController.text} : ${_maxController.text}');
+                          //* type cast string to int
+                          solenoidDevice.autoMinOn = int.tryParse(_minController.text)!;
+                          solenoidDevice.autoMaxOff = int.tryParse(_maxController.text)!;
+                          log('${solenoidDevice.toJson()}');
+                          //! update value to hive database
+                          Provider.of<TaskAllModelProvider>(context, listen: false).updateDevice(solenoidDevice);
+                          //* pop context 
+                          Navigator.pop(context);
+                        } 
+                      } 
                     },
                   ),
                   GlobalText(text: '*หมายเหตุ หากต้องการยกเลิก Auto Mode', color: Colors.grey,fontWeight: FontWeight.bold,),
@@ -96,4 +126,17 @@ Future<void> autoShowDialog(BuildContext context, DeviceModel solenoidDevice) {
           ),
         );
       });
+}
+
+
+//?for check min must have less then max value
+bool checkInputController({required String min, required String max}) {
+  bool isChecked = false;
+  if((int.tryParse(min)! < int.tryParse(max)!) || (int.tryParse(min)! == 0 && int.tryParse(max)! == 0) ) {
+    isChecked = true;
+  } else {
+    isChecked = false;
+  }
+
+  return isChecked;
 }

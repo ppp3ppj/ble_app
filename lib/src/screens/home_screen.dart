@@ -1,5 +1,6 @@
 import 'package:ble_app/src/global/global_text.dart';
 import 'package:ble_app/src/screens/sensors_screen/sensors_screen.dart';
+// import 'package:ble_app/src/widgets/information/information_dialog_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
@@ -45,7 +46,10 @@ class HomeScreen extends StatelessWidget {
         leading: const AutoLeadingButton(),
         //! add action for show information of Bluetooth connected
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.bluetooth))
+          IconButton(onPressed: (){
+            // //! add context to function information bluetooth dialog ? 
+            // informationDialog(context); 
+          }, icon: Icon(Icons.bluetooth))
         ],
       )),
       // backgroundColor: Colors.indigo,

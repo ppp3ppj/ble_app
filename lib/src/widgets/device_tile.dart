@@ -96,9 +96,9 @@ class DeviceTile extends StatelessWidget {
                                       GlobalText(text: solenoidDevice.title, fontSize: 22, fontHeightSpace: 0, fontWeight: FontWeight.bold,),
                                       //TODO: Do it later it's wait TODO Done
                                       // GlobalText(text: 'เเก้ไขล่าสุด :  an hour ago' , fontSize: 16, color: Colors.grey,),
-                                      GlobalText(text: 'การทำงานอัตโนมัติ : เปิด' , fontSize: 16, color: Colors.grey,),
-                                      // GlobalText(text: 'ความชื้น ON  : 0 %' , fontSize: 16, color: Colors.grey,),
-                                      // GlobalText(text: 'ความชื้น OFF : 0 %' , fontSize: 16, color: Colors.grey,),
+                                      // GlobalText(text: 'การทำงานอัตโนมัติ : เปิด' , fontSize: 16, color: Colors.grey,),
+                                      GlobalText(text: 'ความชื้น ON  : ${solenoidDevice.autoMinOn} %' , fontSize: 16, color: Colors.grey, fontHeightSpace: 1.2,),
+                                      GlobalText(text: 'ความชื้น OFF : ${solenoidDevice.autoMaxOff} %' , fontSize: 16, color: Colors.grey, fontHeightSpace: 1.2,),
                                       // GlobalText(text: 'Status : เปิด', fontSize: 18),
                                       // GlobalText(text: solenoidDevice.title, fontSize: 25,),
                                           ],
@@ -236,77 +236,4 @@ class DeviceTile extends StatelessWidget {
     );
   }
 
-  Container solenoid_card1(double heightSize, double widthSize) {
-    return Container(
-      height: heightSize * 0.18,
-      margin: EdgeInsets.only(top: 10, left: 14, right: 15),
-      // margin: EdgeInsets.only(left: 14.0, right: 15.0, top: 10),
-      child: Stack(
-        children: [
-          Container(
-            width: widthSize * 0.85,
-            // height: heightSize * 0.172,
-            height: heightSize * 0.15,
-            margin: const EdgeInsets.only(left: 45),
-            decoration: BoxDecoration(
-              // color: Colors.grey,
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 10.0,
-                  offset: Offset(0.0, 10.0),
-                  // color: Colors.grey.shade500,
-                ),
-              ],
-              borderRadius: const BorderRadius.all(Radius.circular(12)),
-            ),
-            child: Container(
-              margin: EdgeInsets.fromLTRB(60.0, 13.0, 16.0, 16.0),
-              constraints: BoxConstraints.expand(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "${solenoidDevice.title}",
-                    style: TextStyle(
-                        fontFamily: 'Kanit',
-                        fontSize: widthSize * 0.05,
-                        // color: Colors.white,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
-            ),
-            // child: Row(
-            //   children: [
-            //     Text('${solenoidList.id} '),
-            //     Text('${solenoidList.title} '),
-            //     Text('${solenoidList.date} '),
-            //     Text('${solenoidList.status}'),
-            //     // Text('${}'),
-            //   ],
-            // )
-          ),
-          Container(
-            // decoration: BoxDecoration(
-            //   color: Colors.amber
-            // ),
-            margin: EdgeInsets.symmetric(
-              vertical: 5.5,
-              // vertical: 16.0,
-            ),
-            alignment: FractionalOffset.centerLeft,
-            // child: Image(
-            // image: AssetImage('assets/images/icons/icon_png/Solenoid.png')),
-            child: SvgPicture.asset('assets/images/icons/solenoid2.svg'),
-            // height: heightSize * 0.155,
-            height: heightSize * 0.135,
-            width: widthSize * 0.25,
-          ),
-        ],
-      ),
-    );
-  }
 }

@@ -431,9 +431,9 @@ void bottomSheetWidget(
                 const SizedBox(height: 10),
                 ElevatedButton(
                     onPressed: () {
-                      
+                      // log('${_daysDate.contains(true)}');
                       if (_formKey.currentState!.validate()) {
-                        if (action == 'add' && getTime(_startDate, _endDate)) {
+                        if (action == 'add' && getTime(_startDate, _endDate) && _daysDate.contains(true)) { //! contain is mean user must select repeat day one day can be save
                           // get
                           // log("${_daysDate}");
                           log('State time is ${getTime(_startDate, _endDate)}');
@@ -472,7 +472,7 @@ void bottomSheetWidget(
                           Provider.of<InterfaceProvider>(context, listen: false).setSaturday(false);
                           Navigator.pop(context);
                         }
-                        if (action == 'update' && getTime(_startDate, _endDate)) {
+                        if (action == 'update' && getTime(_startDate, _endDate) && _daysDate.contains(true) ) { //! contains use must select one day data can update
                           log('State time is ${getTime(_startDate, _endDate)}');
                           //? action == update
                           DeviceTaskModel solenoidTask = DeviceTaskModel(

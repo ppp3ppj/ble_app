@@ -14,14 +14,13 @@ import 'package:auto_route/auto_route.dart' as _i8;
 import 'package:flutter/material.dart' as _i9;
 
 import '../models/db/device_model.dart' as _i10;
-import '../models/db/device_task_model.dart' as _i11;
 import '../screens/devices_screen/devices_screen.dart' as _i3;
-import '../screens/devices_task_screen/add_update_task_screen.dart' as _i5;
 import '../screens/devices_task_screen/devices_task_screen.dart' as _i4;
 import '../screens/home_screen.dart' as _i2;
 import '../screens/logs_screen/logs_screen.dart' as _i7;
 import '../screens/sensors_screen/sensors_screen.dart' as _i6;
 import '../screens/welcome_screen.dart' as _i1;
+import '../widgets/information/information_screen.dart' as _i5;
 
 class AppRouter extends _i8.RootStackRouter {
   AppRouter([_i9.GlobalKey<_i9.NavigatorState>? navigatorKey])
@@ -48,15 +47,9 @@ class AppRouter extends _i8.RootStackRouter {
           child: _i4.DevicesTaskScreen(
               key: args.key, solenoidDevice: args.solenoidDevice));
     },
-    AddUpdateTaskScreen.name: (routeData) {
-      final args = routeData.argsAs<AddUpdateTaskScreenArgs>();
+    InformationScreen.name: (routeData) {
       return _i8.MaterialPageX<dynamic>(
-          routeData: routeData,
-          child: _i5.AddUpdateTaskScreen(
-              key: args.key,
-              action: args.action,
-              solenoidDevice: args.solenoidDevice,
-              solenoidTaskDevice: args.solenoidTaskDevice));
+          routeData: routeData, child: const _i5.InformationScreen());
     },
     DeviceListRouter.name: (routeData) {
       return _i8.MaterialPageX<dynamic>(
@@ -85,8 +78,7 @@ class AppRouter extends _i8.RootStackRouter {
         ]),
         _i8.RouteConfig(DevicesScreen.name, path: '/DevicesList'),
         _i8.RouteConfig(DevicesTaskScreen.name, path: '/devices-task-screen'),
-        _i8.RouteConfig(AddUpdateTaskScreen.name,
-            path: '/add-update-task-screen')
+        _i8.RouteConfig(InformationScreen.name, path: '/Information')
       ];
 }
 
@@ -141,43 +133,12 @@ class DevicesTaskScreenArgs {
 }
 
 /// generated route for
-/// [_i5.AddUpdateTaskScreen]
-class AddUpdateTaskScreen extends _i8.PageRouteInfo<AddUpdateTaskScreenArgs> {
-  AddUpdateTaskScreen(
-      {_i9.Key? key,
-      required String action,
-      required _i10.DeviceModel solenoidDevice,
-      required _i11.DeviceTaskModel? solenoidTaskDevice})
-      : super(AddUpdateTaskScreen.name,
-            path: '/add-update-task-screen',
-            args: AddUpdateTaskScreenArgs(
-                key: key,
-                action: action,
-                solenoidDevice: solenoidDevice,
-                solenoidTaskDevice: solenoidTaskDevice));
+/// [_i5.InformationScreen]
+class InformationScreen extends _i8.PageRouteInfo<void> {
+  const InformationScreen()
+      : super(InformationScreen.name, path: '/Information');
 
-  static const String name = 'AddUpdateTaskScreen';
-}
-
-class AddUpdateTaskScreenArgs {
-  const AddUpdateTaskScreenArgs(
-      {this.key,
-      required this.action,
-      required this.solenoidDevice,
-      required this.solenoidTaskDevice});
-
-  final _i9.Key? key;
-
-  final String action;
-
-  final _i10.DeviceModel solenoidDevice;
-
-  final _i11.DeviceTaskModel? solenoidTaskDevice;
-
-  @override
-  String toString() {
-    return 'AddUpdateTaskScreenArgs{key: $key, action: $action, solenoidDevice: $solenoidDevice, solenoidTaskDevice: $solenoidTaskDevice}';
-  }
+  static const String name = 'InformationScreen';
 }
 
 /// generated route for
