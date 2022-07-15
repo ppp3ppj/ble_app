@@ -14,13 +14,15 @@ class SensorModel {
   @HiveField(2)
   double value;
   // String dateUpdate;
-  // final String uuid; 
-  SensorModel({this.id, required this.name, this.value = 0.0});
+  @HiveField(3) 
+  final String uuid; 
+  SensorModel({this.id, required this.name, this.value = 0.0, this.uuid = ''});
 
   Map<String, dynamic> toJson() =>  {
     'id': id,
     'name': name,
     'value': value,
+    'uuid': uuid,
   };
 }
 

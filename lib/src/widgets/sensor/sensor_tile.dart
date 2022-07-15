@@ -74,7 +74,8 @@ class SensorTile extends StatelessWidget {
                     children: [
                       GlobalText(text: sensorDevice.name, fontSize: 20,),
                       GlobalText(text: sensorDevice.value.toString() + '%', fontSize: 30, fontHeightSpace: 1.0,),
-                      GlobalText(text: 'Timedate sensor read', fontSize: 12, fontHeightSpace: 1.0,),
+                      // GlobalText(text: 'Timedate sensor read', fontSize: 12, fontHeightSpace: 1.0,),
+                      GlobalText(text: sensorDevice.uuid, fontSize: 12, fontHeightSpace: 1.0,),
                     ],
                   )
                   // GlobalText(text: 'jjjj'),

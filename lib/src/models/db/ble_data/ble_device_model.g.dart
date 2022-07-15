@@ -1,41 +1,38 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'sensor_model.dart';
+part of 'ble_device_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class SensorModelAdapter extends TypeAdapter<SensorModel> {
+class BleDeviceModelAdapter extends TypeAdapter<BleDeviceModel> {
   @override
-  final int typeId = 3;
+  final int typeId = 4;
 
   @override
-  SensorModel read(BinaryReader reader) {
+  BleDeviceModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return SensorModel(
-      id: fields[0] as int?,
-      name: fields[1] as String,
-      value: fields[2] as double,
-      uuid: fields[3] as String,
+    return BleDeviceModel(
+      fields[0] as int?,
+      fields[1] as String?,
+      fields[2] as String?,
     );
   }
 
   @override
-  void write(BinaryWriter writer, SensorModel obj) {
+  void write(BinaryWriter writer, BleDeviceModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.name)
+      ..write(obj.bleId)
       ..writeByte(2)
-      ..write(obj.value)
-      ..writeByte(3)
-      ..write(obj.uuid);
+      ..write(obj.bleName);
   }
 
   @override
@@ -44,7 +41,7 @@ class SensorModelAdapter extends TypeAdapter<SensorModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SensorModelAdapter &&
+      other is BleDeviceModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

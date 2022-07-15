@@ -49,7 +49,13 @@ class HomeScreen extends StatelessWidget {
           IconButton(onPressed: (){
             // //! add context to function information bluetooth dialog ? 
             // informationDialog(context); 
-          }, icon: Icon(Icons.bluetooth))
+          }, icon: Icon(Icons.bluetooth)),
+          IconButton(
+            onPressed: () {
+              context.router.pushNamed('/BleShowLog');
+            }, 
+            icon: Icon(Icons.find_in_page_sharp)
+          ),
         ],
       )),
       // backgroundColor: Colors.indigo,

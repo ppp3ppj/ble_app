@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:ble_app/src/models/db/ble_data/ble_device_model.dart';
 import 'package:ble_app/src/models/db/device_model.dart';
 import 'package:ble_app/src/models/db/sensor_model.dart';
 import 'package:hive/hive.dart';
@@ -38,4 +39,16 @@ Future<void> addSensorDevice(SensorModel sensorDevice) async {
     log('Create sensor device is done');
   }
   log('dont create sensor device');
+}
+
+Future<void> addBleDevice(BleDeviceModel bleDevice) async {
+  final bleDB = await Hive.openBox<BleDeviceModel>('ble_config_db');
+  final check = await bleDB.get(bleDevice.id); 
+  log('${bleDevice.id}');
+  if(check?.id == null) {
+    bleDB.put(bleDevice.id, bleDevice);
+    log('Create ble device config is done');
+  }
+  log('dont create ble device config');
+
 }

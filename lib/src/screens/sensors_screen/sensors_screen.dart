@@ -28,7 +28,7 @@ class _SensorsScreenState extends State<SensorsScreen> {
     final double itemWidth = size.width / 2;
     // final double itemHeight = size.height;
     // final double itemWidth = size.width;
-    log('$itemHeight : $itemWidth');
+    // log('$itemHeight : $itemWidth');
     return Consumer<SensorModelProvider>(builder: (context, sensor, child) {
       return Scaffold(
         body: RefreshIndicator(
@@ -66,6 +66,7 @@ class _SensorsScreenState extends State<SensorsScreen> {
                     ),
                     itemCount: sensor.sensorDeviceList.length,
                     itemBuilder: (BuildContext context, int index) {
+                      // log(sensor.sensorDeviceList[0].toString());
                       return GridTile(child: SensorTile(sensorDevice: sensor.sensorDeviceList[index],));
                     },
                   ),
