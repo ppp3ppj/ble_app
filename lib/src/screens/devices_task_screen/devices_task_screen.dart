@@ -25,7 +25,8 @@ class DevicesTaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.watch<TaskAllModelProvider>().getAllSolenoidTask(solenoidDevice);
-    context.watch<TaskAllModelProvider>().getAllDevice();
+    //? can uncomment to load data
+    // context.watch<TaskAllModelProvider>().getAllDevice();
 
     Color kPrimaryColor = Color(0xff479100);
     Color kBackgroundColor = Color(0xffF4F4F4);
@@ -375,89 +376,3 @@ class DevicesTaskScreen extends StatelessWidget {
     );
   }
 }
-// class deviceShow extends StatelessWidget {
-//   const deviceShow({
-//     Key? key,
-//     required this.screenSize,
-//     required this.solenoidDevice,
-//     required this.kSecondaryTextColor,
-//   }) : super(key: key);
-
-//   final Size screenSize;
-//   final DeviceModel solenoidDevice;
-//   final Color kSecondaryTextColor;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       // decoration: BoxDecoration(
-//       //   color: Colors.amberAccent
-//       // ),
-//       child: Row(
-//         children: [
-//           Container(
-//             // decoration: BoxDecoration(
-//             // color: Colors.amber
-//             // ),
-//             // height: screenSize.height * 0.5,
-//             height: screenSize.height * 0.11,
-//             width: screenSize.width * 0.24,
-//             // child:  AssetImage("assets/images/icons/icon_png/Solenoid.png"),
-//             child: SvgPicture.asset('assets/images/icons/solenoid2.svg'),
-//             // child: Image(
-//             //   image: AssetImage(
-//             //     "assets/images/icons/icon_png/Solenoid_2.png",
-//             //   ),
-//             // ),
-//           ),
-//           const SizedBox(
-//             width: 5,
-//           ),
-//           Container(
-//             width: screenSize.width * 0.63,
-//             // decoration: BoxDecoration(
-//             //   color: Colors.white
-//             // ),
-//             child: Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               children: [
-//                 Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     GlobalText(
-//                       text: '${solenoidDevice.title}',
-//                       fontSize: 20,
-//                       fontWeight: FontWeight.bold,
-//                     ),
-//                     const SizedBox(
-//                       height: 7,
-//                     ),
-//                     GlobalText(
-//                       text: 'Eiei',
-//                       fontSize: 12,
-//                       color: kSecondaryTextColor,
-//                     ),
-//                     // Text('he'),
-//                     // GlobalText(text: 'ทดสอบ'),
-//                     // Text('he'),
-//                   ],
-//                 ),
-//                 // GlobalText(text: 'P')
-//                 // ElevatedButton(onPressed: (){}, child: const Text('PPP'),),
-//                 Switch(
-//                   onChanged: (val) {
-//                     log('Switch value : $val');
-//                     // Provider.of(context)<TaskAllModelProvider>(context, listen: false).setActive(val);
-//                     Provider.of<TaskAllModelProvider>(context, listen: false)
-//                         .setActive(val);
-//                   },
-//                   value: context.watch<TaskAllModelProvider>().active,
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }

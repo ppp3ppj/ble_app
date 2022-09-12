@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:ble_app/src/global/global_text.dart';
 import 'package:ble_app/src/models/db/device_model.dart';
+import 'package:ble_app/src/provider/ble/ble_model_provider.dart';
 import 'package:ble_app/src/provider/taskall_model_provider.dart';
 import 'package:ble_app/src/routes/router.gr.dart';
+import 'package:ble_app/src/services/ble/ble_device_interactor.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart'; //? Flutter svg
@@ -10,10 +14,15 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_switch/flutter_switch.dart'; //* flutter toggle switch
 import 'package:provider/provider.dart'; //! provider
 
+//! flutter ble services 
+import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+// import 'package:ble_app/src/services/ble/ble_device_interactor.dart';
 class DeviceTile extends StatelessWidget {
   const DeviceTile({Key? key, required this.solenoidDevice}) : super(key: key);
 
   final DeviceModel solenoidDevice;
+  //!ble
+  // final FlutterReactiveBle ble;
 
   @override
   Widget build(BuildContext context) {
@@ -139,14 +148,37 @@ class DeviceTile extends StatelessWidget {
                                 //     .active,
                                 value: solenoidDevice.status,
                                  onToggle: (val) {
+                                  // final _ble = ble
+                                  solenoidDevice.status = val;
+                                  final characteristic = QualifiedCharacteristic(serviceId: Uuid.parse('4fafc201-1fb5-459e-8fcc-c5c9c331914b'), characteristicId: Uuid.parse('6d68efe5-04b6-4a85-abc4-c2670b7bf7fd'), deviceId: '3C:71:BF:64:36:8E');
+                                  // log()
+                                  final jsonDevice = json.encode(solenoidDevice.toJson());
+                                  // log()
+
+                                  //? can fix same jsonDevice
+                                  // final jsonDevice2 = JsonEncoder.withIndent(' ').convert(solenoidDevice.toJson());
+                                  log('Json --> $jsonDevice');
+                                  // List<int> bytes = utf8.encode(json.encode(jsonDevice)); //wrong twice encode 
+                                  List<int> bytes = utf8.encode(jsonDevice);
+                                  log('Message sent with MTU is ${bytes.length} bytes.');
                                    log('Switch value : $val');
-                                   solenoidDevice.status = val;
                                    //TODO: Fix format date/time now plese
                                   //  solenoidDevice.date = DateTime.now();
                                     // log(message) 
                                     // solenoidDevice.status = val ;
                                     // Provider
                                    log('${solenoidDevice.toJson()}');
+                                  // context.read<BleModelProvider>().bleDevice;
+                                  log(Provider.of<BleModelProvider>(context, listen: false).bleDevice.toJson().toString());
+                                  // Provider.value<>(value: value);
+                                  Provider.of<BleDeviceInteractor>(context, listen: false).discoverServices(
+                                    Provider.of<BleModelProvider>(context, listen: false).bleDevice.bleId.toString()
+                                  );
+                                  Provider.of<BleDeviceInteractor>(context, listen: false).writeCharacterisiticWithResponse(characteristic, bytes);
+
+
+                                  // log()
+                                  // Provider.of<BleModelProvider>(context, listen: false).bleDevice;
                                   // Provider.of(context)<TaskAllModelProvider>(context, listen: false).setActive(val);
                                   Provider.of<TaskAllModelProvider>(context, listen: false).updateDevice(solenoidDevice);
                                   Provider.of<TaskAllModelProvider>(context,

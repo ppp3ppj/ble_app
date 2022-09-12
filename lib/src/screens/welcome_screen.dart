@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:ble_app/src/global/global_text.dart';
 import 'package:ble_app/src/models/functional_data_model/ble_device_interaction_view_model.dart';
 import 'package:ble_app/src/provider/ble/ble_model_provider.dart';
+import 'package:ble_app/src/provider/sensor_model_provider.dart';
+import 'package:ble_app/src/provider/taskall_model_provider.dart';
 import 'package:ble_app/src/routes/router.gr.dart';
 import 'package:ble_app/src/screens/ble_screen/ble_status_screen.dart';
 import 'package:ble_app/src/screens/ble_screen/devices_list_screen/ble_device_list.dart';
@@ -26,6 +28,9 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) => Consumer<BleStatus?>(
         builder: (_, status, __) {
           context.watch<BleModelProvider>().getBleConfig();
+          context.watch<SensorModelProvider>().getAllSensor();
+          // context.watch<TaskAllModelProvider>().getAllSolenoidTask(solenoidDevice);
+          context.watch<TaskAllModelProvider>().getAllDevice();
           if (status == BleStatus.ready) {
             return 
             Consumer3<BleDeviceConnector, ConnectionStateUpdate, BleDeviceInteractor>(
@@ -183,6 +188,9 @@ class WelcomeScreenBleOK extends StatelessWidget {
             InkWell(
               onTap: () {
                 !viewModel.deviceConnected ? viewModel.connect() : null ;
+                // final characteristic = QualifiedCharacteristic(serviceId: Uuid.parse('4fafc201-1fb5-459e-8fcc-c5c9c331914b'), characteristicId: Uuid.parse('6d68efe5-04b6-4a85-abc4-c2670b7bf7fd'), deviceId: viewModel.deviceId);
+                // _.writeCharacteristicWithoutResponse(characteristic, value: [0x00]);
+                // final mtu = await reactiveBleClient.requestMtu(deviceId: foundDeviceId, mtu: 250);
               },
               child: _testConnect[0]
             ),

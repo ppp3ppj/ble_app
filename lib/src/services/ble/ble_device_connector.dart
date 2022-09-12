@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:ble_app/src/services/ble/reactive_state.dart';
@@ -32,6 +34,15 @@ class BleDeviceConnector extends ReactiveState<ConnectionStateUpdate> {
       onError: (Object e) =>
           _logMessage('Connecting to device $deviceId resulted in error $e'),
     );
+    //! Change mtu size 
+    final mtu = await _ble.requestMtu(deviceId: deviceId, mtu: 517);
+                    // final characteristic = QualifiedCharacteristic(serviceId: Uuid.parse('4fafc201-1fb5-459e-8fcc-c5c9c331914b'), characteristicId: Uuid.parse('6d68efe5-04b6-4a85-abc4-c2670b7bf7fd'), deviceId: '3C:71:BF:64:36:8E');
+                    // String foo = '{id: 1, title: Solenoid ตัวที่ 1, date: null, status: true, statusTask: false, autoMode: 0 : 0}';
+                    // List<int> bytes = utf8.encode(foo);
+                    // log('Message sent with MTU is ${bytes.length} bytes.');
+                    // _ble.writeCharacteristicWithResponse(characteristic, value: bytes);
+    log('MTU Config is ${mtu}');
+    
   }
 
   Future<void> disconnect(String deviceId) async {

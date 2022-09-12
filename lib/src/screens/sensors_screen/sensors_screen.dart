@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:ble_app/src/global/global_text.dart';
 import 'package:ble_app/src/provider/sensor_model_provider.dart';
 import 'package:ble_app/src/widgets/sensor/sensor_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
 
 import 'package:intl/intl.dart';
@@ -18,10 +20,12 @@ class SensorsScreen extends StatefulWidget {
 class _SensorsScreenState extends State<SensorsScreen> {
   DateTime refreshPullDate = DateTime.now();
 
+  // late FlutterReactiveBle _ble;
   @override
   Widget build(BuildContext context) {
     //! get data all
-    context.watch<SensorModelProvider>().getAllSensor();
+    // context.watch<SensorModelProvider>().getAllSensor();
+    // log(context.watch<SensorModelProvider>().sensorDeviceList[0].toJson().toString());
   String formattedDate = DateFormat('yyyy-MM-dd - kk:mm').format(refreshPullDate);
     var size = MediaQuery.of(context).size;
     final double itemHeight = (size.height) / 2;
@@ -104,9 +108,13 @@ class _SensorsScreenState extends State<SensorsScreen> {
 Future<void> _pullRefresh() async {
   await Future.delayed(Duration(seconds: 2));
   log('pull to ref');
+  final characteristic = QualifiedCharacteristic(serviceId: Uuid.parse('4fafc201-1fb5-459e-8fcc-c5c9c331914b'), characteristicId: Uuid.parse('6d68efe5-04b6-4a85-abc4-c2670b7bf7fd'), deviceId: '3C:71:BF:64:36:8E');
   // List<WordPair> freshWords = await WordDataSource().getFutureWords(delay: 2);
   // setState(() {
   //   words = freshWords;
   // });
   // why use freshWords var? https://stackoverflow.com/a/52992836/2301224
+  final response = await FlutterReactiveBle().readCharacteristic(characteristic);
+  String responseASCII = utf8.decode(response);
+  log(responseASCII);
 }

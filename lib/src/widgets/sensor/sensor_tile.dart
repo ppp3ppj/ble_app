@@ -1,17 +1,32 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:ble_app/src/global/global_text.dart';
 import 'package:ble_app/src/models/db/sensor_model.dart';
+import 'package:ble_app/src/provider/ble/ble_model_provider.dart';
+import 'package:ble_app/src/services/ble/ble_device_interactor.dart';
 import 'package:ble_app/src/widgets/sensor/sensor_dialog_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 class SensorTile extends StatelessWidget {
-  const SensorTile({
+  final _ble = FlutterReactiveBle();
+  SensorTile({
     required this.sensorDevice,
     Key? key,
     }) : super(key: key);
   final SensorModel sensorDevice;
+
+  // late String readOutput;
+
+  // Future<void> readCharacteristic() async {
+  //   final result = await widget.readCharacteristic(widget.characteristic);
+  //   // setState(() {
+  //     readOutput = result.toString();
+  //   // });
+  // }
   @override
   Widget build(BuildContext context) {
     return GridView.count(
@@ -73,7 +88,21 @@ class SensorTile extends StatelessWidget {
                     // mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       GlobalText(text: sensorDevice.name, fontSize: 20,),
-                      GlobalText(text: sensorDevice.value.toString() + '%', fontSize: 30, fontHeightSpace: 1.0,),
+                      Consumer2<BleDeviceInteractor, BleModelProvider>(
+                        builder: (context, value1, value2, child) {
+                          // loadData(value2.bleDevice.bleId.toString());
+
+                          return GlobalText(text: 'jj', fontSize: 12, fontHeightSpace: 1.0,);
+                          // final result = value1.readCharacteristic(QualifiedCharacteristic(
+                          // characteristicId: Uuid.parse("6d68efe5-04b6-4a85-abc4-c2670b7bf7fd"), 
+                          // serviceId: Uuid.parse("4fafc201-1fb5-459e-8fcc-c5c9c331914b"), 
+                          // deviceId: value2.bleDevice.id.toString()));
+                          // final j = result.whenComplete(() => null,);
+                          // return GlobalText(text: j.toString(), fontSize: 30, fontHeightSpace: 1.0,);
+                        }
+                        //  GlobalText(text: sensorDevice.value.toString() + '%', fontSize: 30, fontHeightSpace: 1.0,)
+                        
+                      ),
                       // GlobalText(text: 'Timedate sensor read', fontSize: 12, fontHeightSpace: 1.0,),
                       GlobalText(text: sensorDevice.uuid, fontSize: 12, fontHeightSpace: 1.0,),
                     ],
@@ -164,4 +193,24 @@ class SensorTile extends StatelessWidget {
       ],
     );
   }
+  // void loadData(String devId) async {
+  //   // late String valueShowStr;
+  // //   _ble.subscribeToCharacteristic(characteristic)
+  // final characteristicValueNotify = QualifiedCharacteristic(
+  //         serviceId: Uuid.parse("4fafc201-1fb5-459e-8fcc-c5c9c331914b"),
+  //         characteristicId: Uuid.parse("6d68efe5-04b6-4a85-abc4-c2670b7bf7fd"),
+  //         deviceId: devId,
+  //       );
+  //       _ble.subscribeToCharacteristic(characteristicValueNotify).listen((data) {
+  //         // log('$data');
+  //         String dataStr = utf8.decode(data);
+  //         log(dataStr);
+  //         // setState(() {
+  //           // valueShowStr = dataStr;
+  //         // });
+
+  //       });
+  // // return valueShowStr; 
+  // }
+
 }
